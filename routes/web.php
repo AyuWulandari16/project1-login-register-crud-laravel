@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\FilmController;
+use App\Http\Controllers\Backend\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,12 +51,20 @@ Route::prefix('users')->group(function() {
     Route::get('/delete/{id}', [UserController::class,  'UserDelete'])->name('users.delete');
 });
 
-
-Route::prefix('films')->group(function(){
-    Route::get('/view',[FilmController::class, 'FilmView'])->name('film.view');
-    Route::get('/add',[FilmController::class, 'FilmAdd'])->name('film.add');
-    Route::post('/store',[FilmController::class, 'FilmStore'])->name('films.store');
-    Route::get('/edit/{id}',[FilmController::class, 'FilmEdit'])->name('films.edit');
-    Route::post('/update/{id}',[FilmController::class, 'FilmUpdate'])->name('films.update');
-    Route::get('/delete/{id}',[FilmController::class, 'FilmDelete'])->name('films.delete');
+Route::prefix('products')->group(function(){
+    Route::get('/view',[ProductController::class, 'ProductView'])->name('product.view');
+    Route::get('/add',[ProductController::class, 'ProductAdd'])->name('product.add');
+    Route::post('/store',[ProductController::class, 'ProductStore'])->name('products.store');
+    Route::get('/edit/{id}',[ProductController::class, 'ProductEdit'])->name('products.edit');
+    Route::post('/update/{id}',[ProductController::class, 'ProductUpdate'])->name('products.update');
+    Route::get('/delete/{id}',[ProductController::class, 'ProductDelete'])->name('products.delete');
 });
+
+// Route::prefix('films')->group(function(){
+//     Route::get('/view',[FilmController::class, 'FilmView'])->name('film.view');
+//     Route::get('/add',[FilmController::class, 'FilmAdd'])->name('film.add');
+//     Route::post('/store',[FilmController::class, 'FilmStore'])->name('films.store');
+//     Route::get('/edit/{id}',[FilmController::class, 'FilmEdit'])->name('films.edit');
+//     Route::post('/update/{id}',[FilmController::class, 'FilmUpdate'])->name('films.update');
+//     Route::get('/delete/{id}',[FilmController::class, 'FilmDelete'])->name('films.delete');
+// });
