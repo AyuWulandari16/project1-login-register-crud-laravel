@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\FilmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +33,29 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::controller(AdminController::class)->group(function () {
-    Route::get('logout', 'logout')->middleware('auth')->name('logout');
-});
+// Route::controller(AdminController::class)->group(function () {
+//     Route::get('logout', 'logout')->middleware('auth')->name('logout');
+// });
 
 // Cara 2
-// Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// Semua route untuk user
+Route::prefix('users')->group(function() {
+    Route::get('/view', [UserController::class,  'UserView'])->name('user.view'); 
+    Route::get('/add', [UserController::class,  'UserAdd'])->name('user.add');   
+    Route::post('/store', [UserController::class,  'UserStore'])->name('users.store');     
+    Route::get('/edit/{id}', [UserController::class,  'UserEdit'])->name('users.edit');     
+    Route::post('/update/{id}', [UserController::class,  'UserUpdate'])->name('users.update');     
+    Route::get('/delete/{id}', [UserController::class,  'UserDelete'])->name('users.delete');
+});
+
+
+Route::prefix('films')->group(function(){
+    Route::get('/view',[FilmController::class, 'FilmView'])->name('film.view');
+    Route::get('/add',[FilmController::class, 'FilmAdd'])->name('film.add');
+    Route::post('/store',[FilmController::class, 'FilmStore'])->name('films.store');
+    Route::get('/edit/{id}',[FilmController::class, 'FilmEdit'])->name('films.edit');
+    Route::post('/update/{id}',[FilmController::class, 'FilmUpdate'])->name('films.update');
+    Route::get('/delete/{id}',[FilmController::class, 'FilmDelete'])->name('films.delete');
+});
