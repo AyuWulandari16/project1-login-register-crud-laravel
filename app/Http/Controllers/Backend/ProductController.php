@@ -16,6 +16,8 @@ class ProductController extends Controller
     }
 
     public function ProductAdd(){
+        // Tampilan ini adalah tampilan form atau halaman yang digunakan untuk memasukkan data produk baru.
+        // Dengan kata lain, jika pengguna ingin menambahkan produk baru, mereka akan diarahkan ke tampilan ini
         return view('backend.product.add_product');
     }
 
@@ -24,8 +26,8 @@ class ProductController extends Controller
             'title' => 'required',
         ]);
          
-        $data = new Product();
-        $data->title=$request->title;
+        $data = new Product(); // membuat objek baru dari model "Product" 
+        $data->title=$request->title; // Mengisi atribut "title" dengan nilai yang diterima dari pengguna.
         $data->price=$request->price;
         $data->product_code=$request->product_code;
         $data->description=$request->description;
@@ -35,8 +37,9 @@ class ProductController extends Controller
     }
 
     public function ProductEdit($id){
-        $editData = Product::find($id);
+        $editData = Product::find($id); // mengambil data produk dari tabel produk berdasarkan ID yang diberikan
         return view('backend.Product.edit_Product', compact('editData'));
+        // fungsi compact() mengirim variabel $editData ke dalam tampilan dengan nama "backend.Product.edit_Product".
     }
 
     public function ProductUpdate(Request $request,$id){

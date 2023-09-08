@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\FilmController;
 use App\Http\Controllers\Backend\ProductController;
 
 /*
@@ -34,10 +33,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-// Route::controller(AdminController::class)->group(function () {
-//     Route::get('logout', 'logout')->middleware('auth')->name('logout');
-// });
-
 // Cara 2
 Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
@@ -53,18 +48,13 @@ Route::prefix('users')->group(function() {
 
 Route::prefix('products')->group(function(){
     Route::get('/view',[ProductController::class, 'ProductView'])->name('product.view');
+    // rute yang mendefinisikan URL "/products/view".
+    // Ketika URL ini diakses melalui metode HTTP GET,
+    // ia akan memanggil metode ProductView dari controller "ProductController".
+    // Nama rute ini adalah "product.view" sehingga Anda dapat menggunakan nama ini untuk mengarahkan pengguna ke URL ini.
     Route::get('/add',[ProductController::class, 'ProductAdd'])->name('product.add');
     Route::post('/store',[ProductController::class, 'ProductStore'])->name('products.store');
     Route::get('/edit/{id}',[ProductController::class, 'ProductEdit'])->name('products.edit');
     Route::post('/update/{id}',[ProductController::class, 'ProductUpdate'])->name('products.update');
     Route::get('/delete/{id}',[ProductController::class, 'ProductDelete'])->name('products.delete');
 });
-
-// Route::prefix('films')->group(function(){
-//     Route::get('/view',[FilmController::class, 'FilmView'])->name('film.view');
-//     Route::get('/add',[FilmController::class, 'FilmAdd'])->name('film.add');
-//     Route::post('/store',[FilmController::class, 'FilmStore'])->name('films.store');
-//     Route::get('/edit/{id}',[FilmController::class, 'FilmEdit'])->name('films.edit');
-//     Route::post('/update/{id}',[FilmController::class, 'FilmUpdate'])->name('films.update');
-//     Route::get('/delete/{id}',[FilmController::class, 'FilmDelete'])->name('films.delete');
-// });
