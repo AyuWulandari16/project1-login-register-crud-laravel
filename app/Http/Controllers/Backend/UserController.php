@@ -31,7 +31,7 @@ class UserController extends Controller
         $data->email=$request->email;
         $data->password=bcrypt($request->password);
         $data->save();
-        return redirect()->route('user.view');
+        return redirect()->route('user.view')->with('success', 'User added successfully');
     }
 
     public function UserEdit($id) {
@@ -44,7 +44,7 @@ class UserController extends Controller
         $data->name=$request->name; //name mengarah ke nama type yang ada di add_user.blade.php
         $data->email=$request->email;
         $data->save();
-        return redirect()->route('user.view');    
+        return redirect()->route('user.view')->with('success', 'User updated successfully');    
     }
 
     public function UserDelete($id) {
@@ -56,6 +56,6 @@ class UserController extends Controller
             $user->delete();
         }
         // Alihkan pengguna ke rute yang sesuai setelah penghapusan
-        return redirect()->route('user.view');
+        return redirect()->route('user.view')->with('success', 'User deleted successfully');
     }
 }

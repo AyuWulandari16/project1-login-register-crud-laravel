@@ -35,6 +35,7 @@ Route::middleware([
 
 // Cara 2
 Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
 // Semua route untuk user
 Route::prefix('users')->group(function() {
@@ -56,5 +57,6 @@ Route::prefix('products')->group(function(){
     Route::post('/store',[ProductController::class, 'ProductStore'])->name('products.store');
     Route::get('/edit/{id}',[ProductController::class, 'ProductEdit'])->name('products.edit');
     Route::post('/update/{id}',[ProductController::class, 'ProductUpdate'])->name('products.update');
-    Route::get('/delete/{id}',[ProductController::class, 'ProductDelete'])->name('products.delete');
+    Route::delete('/delete/{id}',[ProductController::class, 'ProductDelete'])->name('products.delete');
+    Route::get('/detail/{id}',[ProductController::class, 'ProductDetail'])->name('product.detail');
 });

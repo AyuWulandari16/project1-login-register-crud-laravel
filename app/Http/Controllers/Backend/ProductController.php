@@ -21,20 +21,31 @@ class ProductController extends Controller
         return view('backend.product.add_product');
     }
 
-    public function ProductStore(Request $request){
-        $validatedData = $request->validate([
-            'title' => 'required',
+    public function ProductStore(Request $request) {
+        // Validasi request, memastikan hanya mengizinkan file gambar
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-         
-        $data = new Product(); // membuat objek baru dari model "Product" 
-        $data->title=$request->title; // Mengisi atribut "title" dengan nilai yang diterima dari pengguna.
-        $data->price=$request->price;
-        $data->product_code=$request->product_code;
-        $data->description=$request->description;
-        $data->save();
-
-        return redirect()->route('product.view')->with('info','Tambah Product Berhasil');    
+    
+        // Periksa apakah ada file gambar yang diunggah
+        if ($request->hasFile('image')) {
+            // Simpan file gambar ke direktori 'public/images'
+            $imagePath = $request->file('image')->store('images', 'public');
+    
+            // Masukkan path gambar ke data produk
+            $data = $request->all();
+            $data['image'] = $imagePath;
+    
+            // Buat produk dalam database
+            Product::create($data);
+    
+            return redirect()->route('product.view')->with('success', 'Product added successfully');
+        } else {
+            // Tambahkan pesan kesalahan jika tidak ada file gambar yang diunggah
+            return redirect()->route('product.view')->with('error', 'Please upload an image');
+        }
     }
+    
 
     public function ProductEdit($id){
         $editData = Product::find($id); // mengambil data produk dari tabel produk berdasarkan ID yang diberikan
@@ -44,18 +55,18 @@ class ProductController extends Controller
 
     public function ProductUpdate(Request $request,$id){
         $data=Product::find($id);
-        $data->title=$request->title;
-        $data->price=$request->price;
-        $data->product_code=$request->product_code;
-        $data->description=$request->description;
-        $data->save();
-
-        return redirect()->route('product.view')->with('info','Edit Product Berhasil');
+        $data->update($request->all());
+        return redirect()->route('product.view')->with('success', 'product updated successfully');
     }
     
     public function ProductDelete($id){
         $deleteData = Product::find($id); 
         $deleteData->delete();
-        return redirect()->route('product.view')->with('info','Delete Product Berhasil');
+        return redirect()->route('product.view')->with('success', 'product deleted successfully');
+    }
+
+    public function ProductDetail(string $id){
+        $product = Product::findOrFail($id);
+        return view('backend.product.detail_product', compact('product'));
     }
 }

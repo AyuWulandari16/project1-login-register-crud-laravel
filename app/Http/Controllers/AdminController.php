@@ -14,6 +14,11 @@ class AdminController extends Controller
         return Redirect()->route('login');
     }
 
+    public function profile()
+    {
+        return view('backend.profile');
+    }
+
     // CARA 2
     // public function logout(Request $request)
     // {
